@@ -71,39 +71,67 @@
           startTime: 23,
           endTime: 35
         },
+        {
+          text: "Text 7",
+          time: 6,
+          startTime: 35,
+          endTime: 41
+        },
+        {
+          text: "Text 8",
+          time: 6,
+          startTime: 41,
+          endTime: 47
+        },
+        {
+          text: "Text 9",
+          time: 6,
+          startTime: 47,
+          endTime: 53
+        },
+        {
+          text: "Text 10",
+          time: 15,
+          startTime: 53,
+          endTime: 68
+        },
+        {
+          text: "Text 10",
+          time: 15,
+          startTime: 68,
+          endTime: 83,
+        }
     ]
 
 
+    // const constantStartTimeInSeconds = Math.floor(new Date('2023-12-04T12:13:00').getTime() / 1000);
     let currentHetaf = undefined;
+    const displayParagraph = document.getElementById('displayText');
 
     function getCurrentHetaf() {
-        let currentTime = Date.now();
-        let startTime = new Date('2023-10-07').getSeconds(); //october7th
-        let lastHetaf = hetafs[hetafs.length-1];
-        let totalTime = lastHetaf.endTime;
-        let diff = (currentTime - startTime) % (totalTime);
-        console.log(diff); // 2
+      const constantStartTimeInSeconds = Math.floor(new Date('2023-12-04T05:22:00').getSeconds());
 
-        hetafs.forEach((hetaf, index) => {
-          console.log("hetaf.startTime: ", hetaf.startTime);
-          console.log("diff: ", diff);
-          console.log("hetaf.endTime: ", hetaf.endTime);
-          console.log("===============================");
+      // Set startTime only once
+      let startTimeInSeconds = constantStartTimeInSeconds;
+      let startTime = new Date(startTimeInSeconds); // Create Date object for the starting time
 
-          if(hetaf.startTime <= diff) {
-            if (hetaf.endTime > diff) {
-              console.log(hetaf);
+      // Other code remains the same
+      let currentTime = Math.floor(new Date().getSeconds());
+      let lastHetaf = hetafs[hetafs.length - 1];
+      let totalTime = lastHetaf.endTime;
+
+      let diff = Math.floor((currentTime - startTime));
+      console.log(diff);
+
+      for (const hetaf of hetafs) {
+          if (hetaf.startTime <= diff && hetaf.endTime > diff) {
               currentHetaf = hetaf;
-            }
+              displayParagraph.textContent = currentHetaf.text;
+              break;
           }
-        });
-
-        return Error("Couldn't find any hetaf...");
+      }
+      return Error("Couldn't find any hetaf...");
     }
-
-    getCurrentHetaf();
-    console.log(currentHetaf);
-    const displayParagraph = document.getElementById('displayText');
 
     function displayText() {
       setTimeout(() => {
@@ -112,6 +140,8 @@
         displayText();
       },currentHetaf.time*1000);
     }
+
+    getCurrentHetaf();
 
     displayText();
     
