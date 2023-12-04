@@ -36,74 +36,33 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
   <script>
-    let hetafs = [
-        {
-            text: "Text 1",
-            time: 4,
-            startTime: 0,
-            endTime: 4
-        },
-        {
-            text: "Text 2",
-            time: 4,
-            startTime: 4,
-            endTime: 8
-        },
-        {
-          text: "Text 3",
-          time: 4,
-          startTime: 8,
-          endTime: 12
-        },
-        {
-          text: "Text 4",
-          time: 6,
-          startTime: 12,
-          endTime: 18
-        },
-        {
-          text: "Text 5",
-          time: 5,
-          startTime: 18,
-          endTime: 23
-        },
-        {
-          text: "Text 6",
-          time: 12,
-          startTime: 23,
-          endTime: 35
-        },
-        {
-          text: "Text 7",
-          time: 6,
-          startTime: 35,
-          endTime: 41
-        },
-        {
-          text: "Text 8",
-          time: 6,
-          startTime: 41,
-          endTime: 47
-        },
-        {
-          text: "Text 9",
-          time: 6,
-          startTime: 47,
-          endTime: 53
-        },
-        {
-          text: "Text 10",
-          time: 15,
-          startTime: 53,
-          endTime: 68
-        },
-        {
-          text: "Text 10",
-          time: 15,
-          startTime: 68,
-          endTime: 83,
-        }
-    ]
+    
+    // Your API endpoint and master key
+    const apiEndpoint = 'https://api.jsonbin.io/v3/b/656e1e5d54105e766fd98d18';
+    const masterKey = '$2a$10$foz.F3aL7C4h7lRm.3EUqO9ET154OhW89at6hC2sJ4LyXvW5Fm43K';
+
+    // Set up the headers
+    const headers = {
+      'X-MASTER-KEY': masterKey,
+      'Content-Type': 'application/json', // Adjust this header based on your API's requirements
+    };
+
+    let hetafs = [];
+
+    // Make the Axios request
+    axios.get(apiEndpoint, { headers })
+      .then(response => {
+        hetafs = response.data.record;
+        console.log('Response:', response.data);
+        console.log('Response:', response.data.record[0].EndTime);
+        
+        setInterval(() => {
+          getCurrentHetaf()
+        }, 500);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
 
 
     // const constantStartTimeInSeconds = Math.floor(new Date('2023-12-04T12:13:00').getTime() / 1000);
@@ -118,24 +77,20 @@
 
       let currentTimeInSeconds = Math.floor(new Date().getSeconds());
       let lastHetaf = hetafs[hetafs.length - 1];
-      let totalTime = lastHetaf.endTime;
+      let totalTime = lastHetaf.EndTime;
 
       let diff = Math.floor((currentTimeInSeconds - startTime));
       console.log(diff);
 
       for (const hetaf of hetafs) {
-          if (hetaf.startTime <= diff && hetaf.endTime > diff) {
+          if (hetaf.StartTime <= diff && hetaf.EndTime > diff) {
               currentHetaf = hetaf;
-              displayParagraph.textContent = currentHetaf.text;
+              displayParagraph.textContent = currentHetaf.Text;
               break;
           }
       }
       return Error("Couldn't find any hetaf...");
     }
-
-    setInterval(() => {
-      getCurrentHetaf()
-    }, 500);
 
     // getCurrentHetaf();
     // displayText();
