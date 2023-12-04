@@ -36,53 +36,81 @@
   <script>
     let hetafs = [
         {
-            text: "Free, free ->> Palestine!",
+            text: "Text 1",
             time: 4,
             startTime: 0,
             endTime: 4
         },
         {
-            text: "Free, free ->> Palestine!,",
+            text: "Text 2",
             time: 4,
             startTime: 4,
             endTime: 8
         },
+        {
+          text: "Text 3",
+          time: 4,
+          startTime: 8,
+          endTime: 12
+        },
+        {
+          text: "Text 4",
+          time: 6,
+          startTime: 12,
+          endTime: 18
+        },
+        {
+          text: "Text 5",
+          time: 5,
+          startTime: 18,
+          endTime: 23
+        },
+        {
+          text: "Text 6",
+          time: 12,
+          startTime: 23,
+          endTime: 35
+        },
     ]
-    let lastHetaf = hetafs[hetafs.length-1];
 
 
-    function getFirstHetaf() {
+    let currentHetaf = undefined;
+
+    function getCurrentHetaf() {
         let currentTime = Date.now();
-        let startTime = new Date('2023-10-07'); //october7th
-        // totalTime = Time(End Time of Last Row in the object)
-        let totalTime = lastHetaf.EndTime;
+        let startTime = new Date('2023-10-07').getSeconds(); //october7th
+        let lastHetaf = hetafs[hetafs.length-1];
+        let totalTime = lastHetaf.endTime;
+        let diff = (currentTime - startTime) % (totalTime);
+        console.log(diff); // 2
 
-        // diff = (currentTime - startingtime) % (TotalTime)
-        let diff = (currentTime - startingtime) % (totalTime);
+        hetafs.forEach((hetaf, index) => {
+          console.log("hetaf.startTime: ", hetaf.startTime);
+          console.log("diff: ", diff);
+          console.log("hetaf.endTime: ", hetaf.endTime);
+          console.log("===============================");
 
-        // Loop JSO object
-        // {
-        //     return row that have (Starttime <= diff AND EndTime > diff)        
-        // }
-        hetafs.forEach((index, hetaf) => {
-            if(hetaf.startTime <= diff &&  hetaf.endTime > diff) {
-                return index;
+          if(hetaf.startTime <= diff) {
+            if (hetaf.endTime > diff) {
+              console.log(hetaf);
+              currentHetaf = hetaf;
             }
+          }
         });
+
         return Error("Couldn't find any hetaf...");
     }
 
-    let currentIndex = getFirstHetaf();
-    let intervalIndex = 0;
+    getCurrentHetaf();
+    console.log(currentHetaf);
     const displayParagraph = document.getElementById('displayText');
 
     function displayText() {
       setTimeout(() => {
-        displayParagraph.textContent = hetafs[currentIndex];
-        intervalIndex = currentIndex;
-        currentIndex = (currentIndex + 1) % textArray.length;
+        getCurrentHetaf();
+        displayParagraph.textContent = currentHetaf.text;
         displayText();
-      },timeArray[intervalIndex]);
+      },currentHetaf.time*1000);
     }
 
     displayText();
