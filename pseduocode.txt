@@ -1,0 +1,12 @@
+currentTime = curl http://worldtimeapi.org/api/timezone/Asia/Riyadh > unixtime
+startingtime = 1696647840
+TotalTime = Time(End Time of Last Row in the object)
+
+diff = (currentTime- startingtime) % (TotalTime)
+
+Loop JSO object {
+	return row that have (Starttime <= diff AND EndTime > diff)
+}
+
+
+

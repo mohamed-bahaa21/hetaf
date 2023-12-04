@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Palestine</title>
+
+    <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh; /* Set the height of the body to the full viewport height */
+      margin: 0; /* Remove default margin */
+    }
+
+    #displayText {
+      text-align: center;
+      font-family: 'Helvetica Neue', 'sans-serif';
+      font-size: 50px;
+      font-weight: bold;
+      letter-spacing: -1px;
+      line-height: 1; 
+    }
+  </style>
+
+<script type="text/javascript" src="https://tiiny.host/ad-script.js"></script><script defer data-domain="fp.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
+
+<body>
+
+  
+
+  <p id="displayText"></p>
+
+  <script>
+    let hetafs = [
+        {
+            text: "Free, free ->> Palestine!",
+            time: 4,
+            startTime: 0,
+            endTime: 4
+        },
+        {
+            text: "Free, free ->> Palestine!,",
+            time: 4,
+            startTime: 4,
+            endTime: 8
+        },
+    ]
+    let lastHetaf = hetafs[hetafs.length-1];
+
+
+    function getFirstHetaf() {
+        let currentTime = Date.now();
+        let startTime = new Date('2023-10-07'); //october7th
+        // totalTime = Time(End Time of Last Row in the object)
+        let totalTime = lastHetaf.EndTime;
+
+        // diff = (currentTime - startingtime) % (TotalTime)
+        let diff = (currentTime - startingtime) % (totalTime);
+
+        // Loop JSO object
+        // {
+        //     return row that have (Starttime <= diff AND EndTime > diff)        
+        // }
+        hetafs.forEach((index, hetaf) => {
+            if(hetaf.startTime <= diff &&  hetaf.endTime > diff) {
+                return index;
+            }
+        });
+        return Error("Couldn't find any hetaf...");
+    }
+
+    let currentIndex = getFirstHetaf();
+    let intervalIndex = 0;
+    const displayParagraph = document.getElementById('displayText');
+
+    function displayText() {
+      setTimeout(() => {
+        displayParagraph.textContent = hetafs[currentIndex];
+        intervalIndex = currentIndex;
+        currentIndex = (currentIndex + 1) % textArray.length;
+        displayText();
+      },timeArray[intervalIndex]);
+    }
+
+    displayText();
+    
+  </script>
+
+</body>
+</html>
