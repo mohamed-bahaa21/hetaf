@@ -30,7 +30,11 @@
 
   
 
-  <p id="displayText"></p>
+  <div class="container">
+    <div class="overlay">
+      <p id="displayText"></p>
+    </div>
+  </div>
 
   <script type="text/javascript" src="https://tiiny.host/ad-script.js"></script><script defer data-domain="fp.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script></head>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -80,7 +84,6 @@
       let totalTime = lastHetaf.EndTime;
 
       let diff = Math.floor((currentTimeInSeconds - startTime));
-      console.log(diff);
 
       for (const hetaf of hetafs) {
           if (hetaf.StartTime <= diff && hetaf.EndTime > diff) {
