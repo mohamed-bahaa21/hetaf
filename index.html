@@ -111,16 +111,14 @@
     function getCurrentHetaf() {
       const constantStartTimeInSeconds = Math.floor(new Date('2023-12-04T05:22:00').getSeconds());
 
-      // Set startTime only once
       let startTimeInSeconds = constantStartTimeInSeconds;
-      let startTime = new Date(startTimeInSeconds); // Create Date object for the starting time
+      let startTime = new Date(startTimeInSeconds);
 
-      // Other code remains the same
-      let currentTime = Math.floor(new Date().getSeconds());
+      let currentTimeInSeconds = Math.floor(new Date().getSeconds());
       let lastHetaf = hetafs[hetafs.length - 1];
       let totalTime = lastHetaf.endTime;
 
-      let diff = Math.floor((currentTime - startTime));
+      let diff = Math.floor((currentTimeInSeconds - startTime));
       console.log(diff);
 
       for (const hetaf of hetafs) {
@@ -133,17 +131,12 @@
       return Error("Couldn't find any hetaf...");
     }
 
-    function displayText() {
-      setTimeout(() => {
-        getCurrentHetaf();
-        displayParagraph.textContent = currentHetaf.text;
-        displayText();
-      },currentHetaf.time*1000);
-    }
+    setInterval(() => {
+      getCurrentHetaf()
+    }, 500);
 
-    getCurrentHetaf();
-
-    displayText();
+    // getCurrentHetaf();
+    // displayText();
     
   </script>
 
